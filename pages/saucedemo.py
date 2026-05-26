@@ -1,0 +1,37 @@
+# Import your BasePage class so we can inherit from it
+from pages.base_page import BasePage
+
+class SauceDemoPage(BasePage):
+    def __init__(self, page):
+        """
+        Constructor. 
+        Passes the browser page up to the parent BasePage, 
+        and defines the specific UI elements for SauceDemo.
+        """
+        # Super initializes the parent BasePage class
+        super().__init__(page)
+        
+        # --- UI LOCATORS ---
+        self.username_field = "#user-name"
+        self.password_field = "#password"
+        self.login_button = "#login-button"
+        
+        # This is the title text of the first product displayed on the dashboard after logging in
+        self.first_product_title = ".inventory_item_name"
+
+    
+    def login_to_application(self, username: str, password: str):
+        """
+        Combines our base actions to execute a complete login transaction.
+        """
+        # We call the methods we wrote in BasePage using self.method_name
+        self.fill_field(self.username_field, username)
+        self.fill_field(self.password_field, password)
+        self.click_element(self.login_button)
+
+    def get_dashboard_product_title(self) -> str:
+        """
+        Extracts the name of the first available item on the store page 
+        to prove we logged in successfully.
+        """
+        return self.get_text(self.first_product_title)
