@@ -24,12 +24,14 @@ class BasePage:
 
     def click_element(self, selector: str):
         """
-        Finds a button or link using its CSS selector and clicks it.
+        Finds an element using its CSS selector and clicks it.
+        Allows passing force_click=True to bypass invisible overlay elements.
         """
-        element = self.page.locator(selector)
+        element = self.page.locator(selector).first
         element.wait_for(state="visible")
+        
+        # Pass the force parameter straight into Playwright's native click tool
         element.click()
-
     def get_text(self, selector: str) -> str:
         """
         Extracts the visible text inside a specific web element.

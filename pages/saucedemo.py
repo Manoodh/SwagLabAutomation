@@ -15,6 +15,9 @@ class SauceDemoPage(BasePage):
         self.username_field = "#user-name"
         self.password_field = "#password"
         self.login_button = "#login-button"
+
+        self.hamburger_menu_button = "#react-burger-menu-btn"
+        self.logout_button = "text=Logout"
         
         # This is the title text of the first product displayed on the dashboard after logging in
         self.first_product_title = ".inventory_item_name"
@@ -35,3 +38,8 @@ class SauceDemoPage(BasePage):
         to prove we logged in successfully.
         """
         return self.get_text(self.first_product_title)
+    
+    def logout_of_application(self) -> str:
+        self.click_element(self.hamburger_menu_button)
+        self.click_element(self.logout_button)
+        return self.page.url.rstrip("/")  # Return the current URL to verify we logged out successfully
