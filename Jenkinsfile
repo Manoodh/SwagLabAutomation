@@ -12,14 +12,15 @@ pipeline {
             steps {
                 echo 'Installing python testing libraries...'
                 bat 'python -m pip install --upgrade pip'
-                bat 'pip install pytest playwright'
+                bat 'python -m pip install pytest playwright' // Use explicit python -m call here too
             }
         }
 
         stage('3. Install Browsers') {
             steps {
                 echo 'Downloading Chromium binaries...'
-                bat 'playwright install chromium'
+                // ✨ THE FIX: Explicitly call the playwright module through python
+                bat 'python -m playwright install chromium'
             }
         }
 
