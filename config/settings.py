@@ -10,5 +10,5 @@ class TestConfig:
     TEST_PASSWORD = "secret_sauce"
     
     # Interactive browser execution mechanics
-    HEADLESS_MODE = False 
+    HEADLESS_MODE = True 
     SLOW_MO_DELAY = 200  # Slight delay so you can watch your page actions execute
