@@ -1,6 +1,6 @@
-# 1. Import your page object interface layer
+# Import page object interface layer
 from pages.saucedemo import SauceDemoPage
-# 2. Import your hardcoded static credentials module
+# Import hardcoded static credentials module
 from config.settings import TestConfig
 
 def test_saucedemo_authentication_and_catalog(browser_page):

@@ -1,6 +1,5 @@
 name: Playwright SauceDemo Integration Suite
 
-# ⚡ This block tells GitHub to run your tests AUTOMATICALLY on every push or PR to main!
 on:
   push:
     branches: [ main ]
@@ -9,7 +8,7 @@ on:
 
 jobs:
   automation-run:
-    runs-on: ubuntu-latest # GitHub spins up a clean Linux cloud server for free
+    runs-on: ubuntu-latest 
 
     steps:
       - name: 1. Extract Project Workspace
@@ -18,7 +17,7 @@ jobs:
       - name: 2. Initialize Python Runtime
         uses: actions/setup-python@v5
         with:
-          python-version: '3.11' # Locks down a stable Python execution context
+          python-version: '3.11' 
 
       - name: 3. Install Framework Dependencies
         run: |
