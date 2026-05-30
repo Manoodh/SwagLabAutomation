@@ -1,5 +1,6 @@
 # Import page object interface layer
 from pages.saucedemo import SauceDemoPage
+from pages.cart_page import CartPage
 # Import hardcoded static credentials module
 from config.settings import TestConfig
 
@@ -37,3 +38,17 @@ def test_saucedemo_invalid_credentials(browser_page):
     login_error_message = sauce_store.login_with_invalid_credentials()
     assert login_error_message == "Epic sadface: Username and password do not match any user in this service", \
         f"QA Defect Detected: Expected login error message not found. Actual message: '{login_error_message}'"
+
+def test_saucedemo_cart_checkout(browser_page):
+
+    sauce_store= SauceDemoPage(browser_page)
+    cart_page= CartPage(browser_page)
+
+    print("\n[TEST] Commencing checkout flow test...")
+    sauce_store.navigate_to(TestConfig.BASE_URL)
+    sauce_store.login_to_application(TestConfig.TEST_USER, TestConfig.TEST_PASSWORD)
+    sauce_store.add_first_item_to_cart()
+    sauce_store.navigate_to_cart_page()
+
+    cart_page.complete_check_out_flow()
+    assert cart_page.get_confirmation_message()== "Thank you for your order!", f"QA Defect Detected: Expected checkout error message not found."

@@ -25,6 +25,9 @@ class SauceDemoPage(BasePage):
         # Login error
         self.login_error = "h3[data-test='error']"
 
+        self.shopping_cart_button= ".shopping_cart_link"
+        self.add_to_cart_buttons ="button[id^='add-to-cart']"
+
     
     def login_to_application(self, username: str, password: str):
         """
@@ -51,7 +54,13 @@ class SauceDemoPage(BasePage):
         """
         Attempts to log in with invalid credentials and returns the error message text.
         """
-        self.fill_field(self.username_field, "username")
-        self.fill_field(self.password_field, "password")
-        self.click_element(self.login_button)
+        self.login_to_application("username","password")
         return self.get_text(self.login_error)
+    
+    def add_first_item_to_cart(self):
+        """Clicks the very first 'Add to Cart' button found on the grid."""
+        self.page.locator(self.add_to_cart_buttons).first.click()
+
+    def navigate_to_cart_page(self):
+        """Clicks the shopping cart badge icon at the top right."""
+        self.click_element(self.shopping_cart_button)
