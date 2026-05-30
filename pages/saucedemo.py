@@ -22,6 +22,9 @@ class SauceDemoPage(BasePage):
         # This is the title text of the first product displayed on the dashboard after logging in
         self.first_product_title = ".inventory_item_name"
 
+        # Login error
+        self.login_error = "h3[data-test='error']"
+
     
     def login_to_application(self, username: str, password: str):
         """
@@ -43,3 +46,12 @@ class SauceDemoPage(BasePage):
         self.click_element(self.hamburger_menu_button)
         self.click_element(self.logout_button)
         return self.page.url.rstrip("/")  # Return the current URL to verify we logged out successfully
+    
+    def login_with_invalid_credentials(self) -> str:
+        """
+        Attempts to log in with invalid credentials and returns the error message text.
+        """
+        self.fill_field(self.username_field, "username")
+        self.fill_field(self.password_field, "password")
+        self.click_element(self.login_button)
+        return self.get_text(self.login_error)

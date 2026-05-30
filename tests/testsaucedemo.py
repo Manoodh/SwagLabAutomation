@@ -25,3 +25,15 @@ def test_saucedemo_authentication_and_catalog(browser_page):
 
     assert sauce_store.logout_of_application() == TestConfig.BASE_URL, \
         "QA Defect Detected: Logout did not return to the expected landing page URL."
+    
+    
+def test_saucedemo_invalid_credentials(browser_page):
+    
+    sauce_store = SauceDemoPage(browser_page)
+    
+    print("\n[TEST] Commencing invalid credentials test...")
+    
+    sauce_store.navigate_to(TestConfig.BASE_URL)
+    login_error_message = sauce_store.login_with_invalid_credentials()
+    assert login_error_message == "Epic sadface: Username and password do not match any user in this service", \
+        f"QA Defect Detected: Expected login error message not found. Actual message: '{login_error_message}'"
