@@ -26,7 +26,7 @@ pipeline {
         stage('4. Run Playwright Suite') {
             steps {
                 echo 'Executing Headless Automation Run...'
-                bat 'python -m pytest tests/testsaucedemo.py -v --html=report.html''
+                bat 'python -m pytest tests/testsaucedemo.py -v --html=report.html'
             }
         }
     }
