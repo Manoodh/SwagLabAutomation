@@ -12,7 +12,7 @@ pipeline {
             steps {
                 echo 'Installing python testing libraries...'
                 bat 'python -m pip install --upgrade pip'
-                bat 'python -m pip install pytest playwright' 
+                bat 'python -m pip install pytest playwright pytest-html' 
             }
         }
 
@@ -26,8 +26,14 @@ pipeline {
         stage('4. Run Playwright Suite') {
             steps {
                 echo 'Executing Headless Automation Run...'
-                bat 'python -m pytest tests/testsaucedemo.py -v'
+                bat 'python -m pytest tests/testsaucedemo.py -v --html=report.html''
             }
+        }
+    }
+    post {
+        always {
+            echo 'Archiving test execution artifacts...'
+            archiveArtifacts artifacts: 'report.html', fingerprint: true
         }
     }
 }
