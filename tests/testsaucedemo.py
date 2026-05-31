@@ -1,3 +1,4 @@
+import pytest
 # Import page object interface layer
 from pages.saucedemo import SauceDemoPage
 from pages.cart_page import CartPage
@@ -27,16 +28,28 @@ def test_saucedemo_authentication_and_catalog(browser_page):
     assert sauce_store.logout_of_application() == TestConfig.BASE_URL, \
         "QA Defect Detected: Logout did not return to the expected landing page URL."
     
-    
-def test_saucedemo_invalid_credentials(browser_page):
+@pytest.mark.parametrize(
+    "user_input, password_input, expected_error_message",
+    [
+        # Scenario A: Standard User submitting a wrong password string
+        (TestConfig.TEST_USER, "completely_wrong_password_123", "Epic sadface: Username and password do not match any user in this service"),
+        
+        # Scenario B: Utilizing a profile officially locked out by system rules
+        ("locked_out_user", "secret_sauce", "Epic sadface: Sorry, this user has been locked out."),
+        
+        # Scenario C: Form fields submitted completely blank
+        ("", "", "Epic sadface: Username is required")
+    ]
+)
+def test_saucedemo_invalid_credentials(browser_page, user_input, password_input, expected_error_message):
     
     sauce_store = SauceDemoPage(browser_page)
     
     print("\n[TEST] Commencing invalid credentials test...")
     
     sauce_store.navigate_to(TestConfig.BASE_URL)
-    login_error_message = sauce_store.login_with_invalid_credentials()
-    assert login_error_message == "Epic sadface: Username and password do not match any user in this service", \
+    login_error_message = sauce_store.login_with_invalid_credentials(user_input,password_input)
+    assert login_error_message == expected_error_message, \
         f"QA Defect Detected: Expected login error message not found. Actual message: '{login_error_message}'"
 
 def test_saucedemo_cart_checkout(browser_page):
