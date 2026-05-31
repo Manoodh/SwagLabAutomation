@@ -36,3 +36,10 @@ jobs:
         with:
           name: playwright-execution-report
           path: report.html
+
+      - name: 7. Archive Failure Screenshots
+        uses: actions/upload-artifact@v4
+        if: failure()
+        with:
+          name: execution-failure-screenshots
+          path: failures/

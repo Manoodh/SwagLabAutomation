@@ -33,7 +33,6 @@ pipeline {
     post {
         always {
             echo 'Archiving test execution artifacts...'
-            archiveArtifacts artifacts: 'report.html', fingerprint: true
-        }
+            archiveArtifacts artifacts: 'report.html, failures/*.png', allowEmptyArchive: true, fingerprint: true        }
     }
 }
